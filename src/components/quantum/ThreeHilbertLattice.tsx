@@ -16,17 +16,17 @@ export const ThreeHilbertLattice: React.FC<ThreeHilbertLatticeProps> = ({
     const container = mountRef.current;
     if (!container) return;
 
-    const width = container.clientWidth || 400;
+    const width = container.clientWidth || 360;
     const height = container.clientHeight || 180;
 
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0xfcfcfd);
 
     const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
-    camera.position.set(0, 1.5, 5);
+    camera.position.set(0, 1.4, 5);
     camera.lookAt(0, 0, 0);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setClearColor(0x000000, 0); // Transparent for video background
     renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     container.innerHTML = '';
@@ -35,11 +35,11 @@ export const ThreeHilbertLattice: React.FC<ThreeHilbertLatticeProps> = ({
     const group = new THREE.Group();
     scene.add(group);
 
-    // Create 4 qubit orbital rings and central entanglement mesh
+    // Warm Sunset Golden Lattice
     const nodeCount = 8;
     const nodes: THREE.Vector3[] = [];
     const sphereGeo = new THREE.SphereGeometry(0.12, 16, 16);
-    const sphereMat = new THREE.MeshBasicMaterial({ color: 0x4f46e5 });
+    const sphereMat = new THREE.MeshBasicMaterial({ color: 0xd97706 });
 
     for (let i = 0; i < nodeCount; i++) {
       const angle = (i / nodeCount) * Math.PI * 2;
@@ -55,11 +55,11 @@ export const ThreeHilbertLattice: React.FC<ThreeHilbertLatticeProps> = ({
       group.add(sphere);
     }
 
-    // Connect nodes with entangling line strands
+    // Warm amber connecting strands
     const lineMat = new THREE.LineBasicMaterial({
-      color: 0x818cf8,
+      color: 0xf59e0b,
       transparent: true,
-      opacity: 0.4
+      opacity: 0.55
     });
 
     const linesGeo = new THREE.BufferGeometry();
@@ -72,18 +72,16 @@ export const ThreeHilbertLattice: React.FC<ThreeHilbertLatticeProps> = ({
       }
     }
     linesGeo.setFromPoints(linePts);
-    const lineMesh = new THREE.LineSegments(linesGeo, lineMat);
-    group.add(lineMesh);
+    group.add(new THREE.LineSegments(linesGeo, lineMat));
 
-    // Ambient rotation & subtle breathing
     let animationId: number;
-    let clock = new THREE.Clock();
+    const clock = new THREE.Clock();
 
     const animate = () => {
       animationId = requestAnimationFrame(animate);
       const time = clock.getElapsedTime();
-      group.rotation.y = time * 0.15;
-      group.rotation.x = Math.sin(time * 0.2) * 0.1;
+      group.rotation.y = time * 0.18;
+      group.rotation.x = Math.sin(time * 0.2) * 0.12;
       renderer.render(scene, camera);
     };
 
@@ -91,7 +89,7 @@ export const ThreeHilbertLattice: React.FC<ThreeHilbertLatticeProps> = ({
 
     const handleResize = () => {
       if (!container || !renderer) return;
-      const w = container.clientWidth || 400;
+      const w = container.clientWidth || 360;
       const h = container.clientHeight || 180;
       camera.aspect = w / h;
       camera.updateProjectionMatrix();
@@ -111,10 +109,10 @@ export const ThreeHilbertLattice: React.FC<ThreeHilbertLatticeProps> = ({
   }, [qubitsCount]);
 
   return (
-    <div className={`relative w-full h-[180px] rounded-lg overflow-hidden border border-slate-200/80 bg-white/50 ${className}`}>
+    <div className={`relative w-full h-[180px] rounded-xl overflow-hidden glass-card ${className}`}>
       <div ref={mountRef} className="w-full h-full"></div>
-      <div className="absolute top-2 left-2 text-[10px] font-mono text-slate-500 bg-white/80 px-2 py-0.5 rounded border border-slate-200/60 pointer-events-none">
-        Hilbert Space State Topology (2^{qubitsCount} Dimension)
+      <div className="absolute top-2 left-2 text-[10px] font-mono text-amber-900 bg-white/70 backdrop-blur-xs px-2 py-0.5 rounded border border-amber-300/50 pointer-events-none">
+        Hilbert Space (2^{qubitsCount} Dimensional State Topology)
       </div>
     </div>
   );

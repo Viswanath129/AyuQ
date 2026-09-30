@@ -3,59 +3,77 @@
 @layer base {
   :root {
     color-scheme: light;
-    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    --font-serif: 'Cinzel', Georgia, serif;
+    --font-sans: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
   }
   
   html, body {
-    background-color: #fafafb;
-    color: #09090b;
+    background-color: #fffbeb;
+    color: #1c1917;
     font-family: var(--font-sans);
     margin: 0;
     padding: 0;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    letter-spacing: -0.011em;
+    overflow-x: hidden;
   }
 
-  /* Ultra-minimal hairline borders */
-  .border-hairline {
-    border-width: 0.5px;
-    border-color: rgba(228, 228, 231, 0.8);
+  /* Headings with high-taste serif touches */
+  h1, h2, .font-serif-title {
+    font-family: var(--font-serif);
+    letter-spacing: -0.02em;
   }
 
-  /* Scientific quantum grid pattern */
-  .bg-grid-scientific {
-    background-size: 32px 32px;
-    background-image: 
-      linear-gradient(to right, rgba(228, 228, 231, 0.4) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(228, 228, 231, 0.4) 1px, transparent 1px);
+  /* Frosted Golden Hour Liquid Glass */
+  .glass-card {
+    background-color: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(245, 158, 11, 0.25);
+    box-shadow: 0 4px 24px -2px rgba(217, 119, 6, 0.06);
   }
 
-  .bg-dots-quantum {
-    background-size: 24px 24px;
-    background-image: radial-gradient(rgba(79, 70, 229, 0.12) 1px, transparent 1px);
+  .glass-card-hover {
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .glass-card-hover:hover {
+    background-color: rgba(255, 255, 255, 0.94);
+    border-color: rgba(217, 119, 6, 0.45);
+    box-shadow: 0 8px 30px -4px rgba(217, 119, 6, 0.12);
+  }
+
+  .glass-nav {
+    background-color: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-color: rgba(245, 158, 11, 0.25);
+  }
+
+  /* Golden hour glowing accents */
+  .glow-golden {
+    box-shadow: 0 0 20px -3px rgba(245, 158, 11, 0.35);
   }
 
   /* Selection highlight */
   ::selection {
-    background-color: #e0e7ff;
-    color: #3730a3;
+    background-color: #fef3c7;
+    color: #92400e;
   }
 }
 
-/* Minimalist scrollbars */
+/* Warm minimalist scrollbars */
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #e4e4e7;
+  background: rgba(217, 119, 6, 0.25);
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #a1a1aa;
+  background: rgba(217, 119, 6, 0.45);
 }

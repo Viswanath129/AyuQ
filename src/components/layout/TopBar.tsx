@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, Bell, Sparkles, Check, Info } from 'lucide-react';
+import { Search, Bell, Sparkles, Check, Info, Menu } from 'lucide-react';
 import { NavItemKey } from './Sidebar';
 import { User } from '../../types';
 
@@ -7,6 +7,7 @@ interface TopBarProps {
   currentTab: NavItemKey;
   currentUser: User;
   onStartDemo: () => void;
+  onOpenMobileNav?: () => void;
   onSearch?: (query: string) => void;
 }
 
@@ -14,6 +15,7 @@ export const TopBar: React.FC<TopBarProps> = ({
   currentTab,
   currentUser,
   onStartDemo,
+  onOpenMobileNav
 }) => {
   const [showNotifications, setShowNotifications] = useState(false);
 
@@ -23,7 +25,7 @@ export const TopBar: React.FC<TopBarProps> = ({
       case 'patients': return { title: 'Synthetic Cohort & Patient Cases', parent: 'Clinical' };
       case 'datasets': return { title: 'Dataset Registry & Preprocessing', parent: 'Data Layer' };
       case 'models': return { title: 'Model Laboratory (Classical & QML)', parent: 'ML/QML' };
-      case 'qml-lab': return { title: 'QML Lab & Variational Circuit Studio', parent: 'Quantum' };
+      case 'qml-lab': return { title: '3D QML Lab & Variational Circuit Studio', parent: 'Quantum' };
       case 'quantum-exec': return { title: 'Quantum Execution & Hardware Simulator', parent: 'Execution' };
       case 'evaluation': return { title: 'Rigorous Evaluation Protocol & Locked Test Set', parent: 'Validation' };
       case 'results': return { title: 'Inference & Explainable Decision Support', parent: 'Results' };
@@ -39,71 +41,82 @@ export const TopBar: React.FC<TopBarProps> = ({
   const breadcrumb = getBreadcrumb(currentTab);
 
   return (
-    <header className="h-14 bg-white border-b border-slate-200 px-6 flex items-center justify-between shrink-0 select-none z-20">
-      {/* Title & Breadcrumb */}
-      <div className="flex items-center gap-2 text-xs">
-        <span className="text-slate-400 font-medium">{breadcrumb.parent}</span>
-        <span className="text-slate-300">/</span>
-        <span className="text-slate-800 font-semibold text-sm">{breadcrumb.title}</span>
+    <header className="h-14 glass-nav border-b border-amber-200/40 px-4 sm:px-6 flex items-center justify-between shrink-0 select-none z-20 sticky top-0">
+      {/* Mobile Hamburger & Breadcrumb */}
+      <div className="flex items-center gap-2.5 min-w-0">
+        <button
+          onClick={onOpenMobileNav}
+          className="p-1.5 -ml-1 text-stone-600 hover:text-stone-900 rounded-lg md:hidden hover:bg-amber-100/50"
+          aria-label="Open navigation menu"
+        >
+          <Menu className="w-5 h-5" />
+        </button>
+
+        <div className="flex items-center gap-1.5 text-xs truncate">
+          <span className="text-amber-900/60 font-medium hidden sm:inline">{breadcrumb.parent}</span>
+          <span className="text-amber-400 hidden sm:inline">/</span>
+          <span className="text-stone-900 font-bold truncate text-xs sm:text-sm">{breadcrumb.title}</span>
+        </div>
       </div>
 
       {/* Action Controls */}
-      <div className="flex items-center gap-3">
-        {/* Environment Indicator Pill */}
-        <div className="flex items-center gap-1.5 px-2.5 py-1 bg-amber-50 border border-amber-200/80 rounded-full text-[11px] font-medium text-amber-800">
-          <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
-          <span>Prototype Environment</span>
+      <div className="flex items-center gap-2 sm:gap-3">
+        {/* Prototype Pill */}
+        <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 bg-amber-100/70 border border-amber-300/60 rounded-full text-[11px] font-mono font-medium text-amber-950">
+          <span className="w-1.5 h-1.5 rounded-full bg-amber-600 animate-pulse"></span>
+          <span>Prototype Mode</span>
         </div>
 
         {/* Global Search Box */}
-        <div className="relative hidden md:block">
-          <Search className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
+        <div className="relative hidden lg:block">
+          <Search className="w-3.5 h-3.5 text-stone-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             placeholder="Search datasets, models, cases..."
-            className="w-56 pl-8 pr-3 py-1 bg-slate-50 border border-slate-200 rounded-md text-xs text-slate-700 placeholder-slate-400 focus:outline-hidden focus:ring-1 focus:ring-indigo-500 focus:bg-white transition-all"
+            className="w-48 pl-8 pr-3 py-1 bg-white/80 border border-amber-300/40 rounded-lg text-xs text-stone-800 placeholder-stone-400 focus:outline-hidden focus:ring-1 focus:ring-amber-500 focus:bg-white transition-all"
           />
         </div>
 
         {/* Guided Demo Button */}
         <button
           onClick={onStartDemo}
-          className="flex items-center gap-1.5 px-3 py-1 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-medium rounded-md shadow-2xs transition-colors"
+          className="flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white text-xs font-semibold rounded-lg shadow-xs transition-colors shrink-0"
         >
           <Sparkles className="w-3.5 h-3.5" />
-          <span>Demo Tour</span>
+          <span className="hidden sm:inline">Demo Tour</span>
+          <span className="sm:hidden">Tour</span>
         </button>
 
         {/* Notification Bell */}
         <div className="relative">
           <button
             onClick={() => setShowNotifications(!showNotifications)}
-            className="p-1.5 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-md transition-colors relative"
+            className="p-1.5 text-stone-600 hover:text-stone-900 hover:bg-amber-100/50 rounded-lg transition-colors relative"
             title="Notifications"
           >
             <Bell className="w-4 h-4" />
-            <span className="w-1.5 h-1.5 rounded-full bg-indigo-600 absolute top-1 right-1"></span>
+            <span className="w-1.5 h-1.5 rounded-full bg-orange-600 absolute top-1 right-1"></span>
           </button>
 
           {showNotifications && (
-            <div className="absolute right-0 mt-2 w-80 bg-white border border-slate-200 rounded-lg shadow-lg p-3 z-50 text-xs">
-              <div className="flex items-center justify-between pb-2 mb-2 border-b border-slate-100 font-semibold text-slate-800">
+            <div className="absolute right-0 mt-2 w-80 glass-card rounded-xl p-3 z-50 text-xs shadow-lg">
+              <div className="flex items-center justify-between pb-2 mb-2 border-b border-amber-200/40 font-semibold text-stone-900">
                 <span>Recent System Events</span>
-                <span className="text-[10px] text-indigo-600 cursor-pointer">Mark read</span>
+                <span className="text-[10px] text-amber-700 cursor-pointer">Mark read</span>
               </div>
-              <div className="space-y-2 text-slate-600">
-                <div className="p-2 bg-slate-50 rounded border border-slate-100 flex items-start gap-2">
+              <div className="space-y-2 text-stone-600">
+                <div className="p-2 bg-amber-50/70 rounded-lg border border-amber-200/50 flex items-start gap-2">
                   <Check className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
                   <div>
-                    <p className="font-medium text-slate-800">Circuit Simulation Finished</p>
-                    <p className="text-[11px] text-slate-500">Cardio-VQC-Ansatz-L3 on Aer QASM (2048 shots)</p>
+                    <p className="font-semibold text-stone-800">Quantum Aer Circuit Simulated</p>
+                    <p className="text-[11px] text-stone-500">Cardio-VQC-Ansatz (2048 shots) completed in 142ms</p>
                   </div>
                 </div>
-                <div className="p-2 bg-slate-50 rounded border border-slate-100 flex items-start gap-2">
-                  <Info className="w-3.5 h-3.5 text-blue-600 shrink-0 mt-0.5" />
+                <div className="p-2 bg-amber-50/70 rounded-lg border border-amber-200/50 flex items-start gap-2">
+                  <Info className="w-3.5 h-3.5 text-amber-700 shrink-0 mt-0.5" />
                   <div>
-                    <p className="font-medium text-slate-800">Test Set Cryptographically Sealed</p>
-                    <p className="text-[11px] text-slate-500">Evaluation EVAL-2026-089 SHA-256 verified</p>
+                    <p className="font-semibold text-stone-800">Test Cohort Sealed</p>
+                    <p className="text-[11px] text-stone-500">Evaluation EVAL-2026-089 SHA-256 verified</p>
                   </div>
                 </div>
               </div>
@@ -112,11 +125,11 @@ export const TopBar: React.FC<TopBarProps> = ({
         </div>
 
         {/* User Mini Avatar */}
-        <div className="flex items-center gap-2 pl-2 border-l border-slate-200">
+        <div className="flex items-center gap-2 pl-1 border-l border-amber-200/40">
           <img
             src={currentUser.avatar}
             alt={currentUser.name}
-            className="w-7 h-7 rounded-full border border-slate-200 object-cover"
+            className="w-7 h-7 rounded-full border border-amber-300 object-cover shadow-2xs"
           />
         </div>
       </div>
