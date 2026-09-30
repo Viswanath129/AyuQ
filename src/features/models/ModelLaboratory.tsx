@@ -13,6 +13,7 @@ import {
   Activity
 } from 'lucide-react';
 import { SafetyDisclaimer } from '../../components/layout/SafetyDisclaimer';
+import { ThreeBlochSphere } from '../../components/quantum/ThreeBlochSphere';
 import { MOCK_MODELS, MOCK_DATASETS } from '../../services/mockData';
 import { Model, ModelFamily } from '../../types';
 
@@ -279,6 +280,27 @@ export const ModelLaboratory: React.FC = () => {
                   </div>
                 </div>
               </div>
+
+              {selectedModel.quantumSpecs && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start pt-2">
+                  <ThreeBlochSphere qubitLabel="q0 (Ansatz State)" initialTheta={54} initialPhi={120} />
+                  <div className="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-3 text-xs">
+                    <h5 className="font-bold text-slate-800 uppercase tracking-wider text-[11px]">
+                      Variational Quantum State Projection
+                    </h5>
+                    <p className="text-slate-600 leading-relaxed">
+                      Clinical features are parameterized into SU(2) rotations on qubit wires. 
+                      Entangling CNOT ladders generate Hilbert space correlations inaccessible to linear classical kernels.
+                    </p>
+                    <div className="font-mono text-[11px] p-2.5 bg-white border border-slate-200 rounded space-y-1 text-slate-700">
+                      <div>Ansatz: {selectedModel.quantumSpecs.ansatz}</div>
+                      <div>Feature Map: {selectedModel.quantumSpecs.featureMap}</div>
+                      <div>Circuit Depth: {selectedModel.quantumSpecs.depth} basis gates</div>
+                      <div>Sampling: {selectedModel.quantumSpecs.shots} shots</div>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           )}
 

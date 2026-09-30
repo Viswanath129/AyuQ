@@ -14,6 +14,7 @@ import {
   Sparkles
 } from 'lucide-react';
 import { SafetyDisclaimer } from '../../components/layout/SafetyDisclaimer';
+import { ThreeHilbertLattice } from '../../components/quantum/ThreeHilbertLattice';
 import { MOCK_MODELS, MOCK_DATASETS, MOCK_QUANTUM_JOBS, MOCK_EVALUATION_RUNS } from '../../services/mockData';
 import { NavItemKey } from '../../components/layout/Sidebar';
 
@@ -45,41 +46,45 @@ export const OverviewDashboard: React.FC<OverviewDashboardProps> = ({ onNavigate
     <div className="space-y-6">
       <SafetyDisclaimer />
 
-      {/* Hero Welcome Banner */}
-      <div className="bg-white border border-slate-200 rounded-lg p-6 shadow-xs relative overflow-hidden">
-        <div className="max-w-3xl relative z-10">
-          <div className="inline-flex items-center gap-2 px-2.5 py-1 bg-indigo-50 text-indigo-700 rounded-full text-xs font-semibold mb-3 border border-indigo-100">
-            <Atom className="w-3.5 h-3.5" />
-            <span>Quantum Machine Learning for Healthcare</span>
-          </div>
-          <h2 className="text-2xl font-bold text-slate-900 tracking-tight">
-            Quantum ML Healthcare Platform
-          </h2>
-          <p className="text-slate-600 text-sm mt-1 leading-relaxed">
-            AI-assisted clinical research, quantum machine learning and reproducible model evaluation. 
-            Designed for translational healthcare researchers, clinical scientists, ML engineers, and quantum physicists.
-          </p>
+      {/* Hero Welcome Banner with 3D Quantum Topology */}
+      <div className="bg-white border border-slate-200/90 rounded-xl p-6 shadow-2xs relative overflow-hidden">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-center relative z-10">
+          <div className="lg:col-span-2">
+            <div className="inline-flex items-center gap-2 px-2.5 py-1 bg-indigo-50/80 text-indigo-700 rounded-full text-xs font-semibold mb-3 border border-indigo-100/80">
+              <Atom className="w-3.5 h-3.5" />
+              <span>Quantum Machine Learning for Healthcare</span>
+            </div>
+            <h2 className="text-2xl font-bold text-slate-900 tracking-tight">
+              Quantum ML Healthcare Platform
+            </h2>
+            <p className="text-slate-600 text-sm mt-1.5 leading-relaxed">
+              AI-assisted clinical research, quantum machine learning, and reproducible model evaluation. 
+              Designed for translational healthcare researchers, clinical scientists, and quantum physicists.
+            </p>
 
-          <div className="flex flex-wrap items-center gap-3 mt-4">
-            <button
-              onClick={onStartDemo}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-md text-xs font-semibold transition-colors shadow-xs"
-            >
-              <Sparkles className="w-4 h-4" />
-              <span>Launch Guided Workflow (Cardio VQC)</span>
-            </button>
-            <button
-              onClick={() => onNavigate('qml-lab')}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-md text-xs font-semibold transition-colors"
-            >
-              <Atom className="w-4 h-4 text-indigo-600" />
-              <span>Open QML Circuit Studio</span>
-            </button>
+            <div className="flex flex-wrap items-center gap-3 mt-5">
+              <button
+                onClick={onStartDemo}
+                className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-semibold transition-all shadow-xs"
+              >
+                <Sparkles className="w-3.5 h-3.5" />
+                <span>Launch Guided Workflow (Cardio VQC)</span>
+              </button>
+              <button
+                onClick={() => onNavigate('qml-lab')}
+                className="inline-flex items-center gap-2 px-4 py-2 bg-slate-100 hover:bg-slate-200/80 text-slate-700 rounded-lg text-xs font-semibold transition-all"
+              >
+                <Atom className="w-3.5 h-3.5 text-indigo-600" />
+                <span>Open 3D Quantum Studio</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Three.js Quantum Lattice */}
+          <div className="lg:col-span-1">
+            <ThreeHilbertLattice qubitsCount={4} className="shadow-2xs" />
           </div>
         </div>
-
-        {/* Subtle decorative quantum grid backdrop */}
-        <div className="absolute right-0 top-0 bottom-0 w-80 bg-dots-quantum opacity-40 pointer-events-none"></div>
       </div>
 
       {/* KPI Cards */}

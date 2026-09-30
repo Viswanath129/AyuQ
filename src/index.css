@@ -3,44 +3,59 @@
 @layer base {
   :root {
     color-scheme: light;
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   }
   
   html, body {
-    background-color: #f8fafc;
-    color: #0f172a;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: #fafafb;
+    color: #09090b;
+    font-family: var(--font-sans);
     margin: 0;
     padding: 0;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    letter-spacing: -0.011em;
   }
 
-  /* Custom scientific quantum grid pattern */
+  /* Ultra-minimal hairline borders */
+  .border-hairline {
+    border-width: 0.5px;
+    border-color: rgba(228, 228, 231, 0.8);
+  }
+
+  /* Scientific quantum grid pattern */
   .bg-grid-scientific {
-    background-size: 24px 24px;
+    background-size: 32px 32px;
     background-image: 
-      linear-gradient(to right, rgba(226, 232, 240, 0.6) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(226, 232, 240, 0.6) 1px, transparent 1px);
+      linear-gradient(to right, rgba(228, 228, 231, 0.4) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(228, 228, 231, 0.4) 1px, transparent 1px);
   }
 
   .bg-dots-quantum {
-    background-size: 20px 20px;
-    background-image: radial-gradient(rgba(99, 102, 241, 0.15) 1px, transparent 1px);
+    background-size: 24px 24px;
+    background-image: radial-gradient(rgba(79, 70, 229, 0.12) 1px, transparent 1px);
+  }
+
+  /* Selection highlight */
+  ::selection {
+    background-color: #e0e7ff;
+    color: #3730a3;
   }
 }
 
-/* Custom crisp scrollbars */
+/* Minimalist scrollbars */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 ::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 3px;
+  background: #e4e4e7;
+  border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: #a1a1aa;
 }

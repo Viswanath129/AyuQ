@@ -11,7 +11,7 @@ import {
   Sparkles
 } from 'lucide-react';
 import { SafetyDisclaimer } from '../../components/layout/SafetyDisclaimer';
-import { BlochSphere } from '../../components/quantum/BlochSphere';
+import { ThreeBlochSphere } from '../../components/quantum/ThreeBlochSphere';
 import { CircuitCanvas } from '../../components/quantum/CircuitCanvas';
 import { ProbabilityChart } from '../../components/quantum/ProbabilityChart';
 import { TranspilationPipeline } from '../../components/quantum/TranspilationPipeline';
@@ -155,10 +155,10 @@ export const QuantumLabWorkspace: React.FC = () => {
           />
         </div>
 
-        {/* Right Sidebar: Bloch Sphere & Execution Config (1 col) */}
+        {/* Right Sidebar: 3D Three.js Bloch Sphere & Execution Config (1 col) */}
         <div className="space-y-4">
-          {/* Bloch Sphere Micro Graphic */}
-          <BlochSphere qubitLabel="q0" initialTheta={45} initialPhi={60} />
+          {/* Interactive 3D Three.js Bloch Sphere */}
+          <ThreeBlochSphere qubitLabel="q0" initialTheta={45} initialPhi={60} />
 
           {/* Configuration Card */}
           <div className="bg-white border border-slate-200 rounded-lg p-4 shadow-xs space-y-3 text-xs">
