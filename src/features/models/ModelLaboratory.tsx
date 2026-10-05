@@ -2,23 +2,20 @@ import React, { useState } from 'react';
 import { 
   Layers, 
   Atom, 
-  Cpu, 
-  Sliders, 
   Play, 
   CheckCircle2, 
   ArrowRight, 
-  Sparkles,
-  RefreshCw,
-  TrendingUp,
-  Activity
+  Sparkles
 } from 'lucide-react';
 import { SafetyDisclaimer } from '../../components/layout/SafetyDisclaimer';
 import { ThreeBlochSphere } from '../../components/quantum/ThreeBlochSphere';
 import { MOCK_MODELS, MOCK_DATASETS } from '../../services/mockData';
 import { Model, ModelFamily } from '../../types';
+import { AtomLoader } from '../../components/common/AtomLoader';
+import { DatasetSourceBadge } from '../../components/common/DatasetSourceBadge';
 
 export const ModelLaboratory: React.FC = () => {
-  const [models, setModels] = useState<Model[]>(MOCK_MODELS);
+  const [models] = useState<Model[]>(MOCK_MODELS);
   const [selectedModel, setSelectedModel] = useState<Model>(MOCK_MODELS[0]);
   const [selectedFamilyFilter, setSelectedFamilyFilter] = useState<'ALL' | ModelFamily>('ALL');
   const [detailTab, setDetailTab] = useState<'overview' | 'architecture' | 'parameters' | 'training' | 'performance'>('overview');
@@ -198,9 +195,12 @@ export const ModelLaboratory: React.FC = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="p-4 bg-slate-50 border border-slate-200 rounded-md space-y-2">
                   <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider">Model Specifications</h4>
-                  <div className="text-xs space-y-1 text-slate-600">
+                  <div className="text-xs space-y-1.5 text-slate-600">
                     <div><strong>Algorithm:</strong> {selectedModel.algorithm}</div>
-                    <div><strong>Dataset:</strong> {selectedModel.datasetName}</div>
+                    <div className="flex items-center gap-1.5 flex-wrap">
+                      <strong>Dataset:</strong>
+                      <DatasetSourceBadge datasetId={selectedModel.datasetId} datasetName={selectedModel.datasetName} variant="link" />
+                    </div>
                     <div><strong>Version:</strong> {selectedModel.version}</div>
                     <div><strong>Registry Status:</strong> {selectedModel.status}</div>
                   </div>
@@ -220,6 +220,11 @@ export const ModelLaboratory: React.FC = () => {
                     <div className="text-xs text-slate-500 italic">Classical baseline — No quantum circuit hardware mapped.</div>
                   )}
                 </div>
+              </div>
+
+              {/* Authoritative Dataset Source Card */}
+              <div className="pt-1">
+                <DatasetSourceBadge datasetId={selectedModel.datasetId} datasetName={selectedModel.datasetName} variant="card" />
               </div>
             </div>
           )}
@@ -362,7 +367,7 @@ export const ModelLaboratory: React.FC = () => {
             {/* Step 1: Select Dataset */}
             {wizardStep === 1 && (
               <div className="space-y-3">
-                <label className="text-xs font-semibold text-slate-700">Step 1: Select Synthetic Dataset</label>
+                <label className="text-xs font-semibold text-slate-700">Step 1: Select Synthetic / Clinical Dataset</label>
                 <div className="space-y-2">
                   {MOCK_DATASETS.map((ds) => (
                     <div
@@ -372,8 +377,11 @@ export const ModelLaboratory: React.FC = () => {
                         trainDataset === ds.name ? 'border-indigo-600 bg-indigo-50/50' : 'border-slate-200 hover:bg-slate-50'
                       }`}
                     >
-                      <div className="font-semibold text-slate-800">{ds.name}</div>
-                      <div className="text-[11px] text-slate-500">{ds.records} records · {ds.features} features · {ds.version}</div>
+                      <div className="flex items-center justify-between">
+                        <div className="font-semibold text-slate-800">{ds.name}</div>
+                        <DatasetSourceBadge datasetId={ds.id} variant="badge" />
+                      </div>
+                      <div className="text-[11px] text-slate-500 mt-1">{ds.records} records · {ds.features} features · {ds.version}</div>
                     </div>
                   ))}
                 </div>
@@ -459,10 +467,16 @@ export const ModelLaboratory: React.FC = () => {
 
                 <div className="w-full h-3 bg-slate-100 rounded-full overflow-hidden">
                   <div
-                    className="h-full bg-indigo-600 transition-all duration-300"
+                    className="h-full bg-gradient-to-r from-amber-500 to-indigo-600 transition-all duration-300"
                     style={{ width: `${trainProgress}%` }}
                   ></div>
                 </div>
+
+                {isTraining && (
+                  <div className="py-2 flex justify-center">
+                    <AtomLoader size={85} text={`Training Epoch ${trainEpoch}/20`} subtext="Optimizing variational rotation parameters..." />
+                  </div>
+                )}
 
                 <div className="p-3 bg-slate-50 rounded border border-slate-200 font-mono text-[11px] text-slate-600 space-y-1">
                   <div>[SIMULATION] Dispatching statevector circuit to Qiskit Aer...</div>

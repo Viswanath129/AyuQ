@@ -3,13 +3,21 @@
 @layer base {
   :root {
     color-scheme: light;
-    --font-serif: 'Cinzel', Georgia, serif;
-    --font-sans: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+    --font-sans: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, monospace;
+    --color-primary: #4f46e5;
+    --color-primary-hover: #4338ca;
+    --color-quantum: #7c3aed;
+    --color-warm-amber: #d97706;
+    --color-warm-gold: #b45309;
+    --color-surface: rgba(255, 253, 248, 0.82);
+    --color-border: rgba(245, 158, 11, 0.25);
+    --color-text-main: #1c1917;
+    --color-text-muted: #57534e;
   }
   
   html, body {
-    background-color: #fffbeb;
+    background-color: transparent;
     color: #1c1917;
     font-family: var(--font-sans);
     margin: 0;
@@ -19,50 +27,88 @@
     overflow-x: hidden;
   }
 
-  /* Headings with high-taste serif touches */
-  h1, h2, .font-serif-title {
-    font-family: var(--font-serif);
-    letter-spacing: -0.02em;
+  /* 
+   * Warm Golden Hour Glassmorphism & Box System
+   * Tuned specifically to blend with the golden sunset background video
+   * Luminous champagne surfaces with warm gold edge highlights and deep obsidian text
+   */
+
+  /* Subtle ambient vignette: NO global blur to keep video motion razor-sharp */
+  .glass-readability-veil {
+    background: radial-gradient(circle at 65% 25%, rgba(255, 255, 255, 0.05) 0%, rgba(254, 243, 199, 0.09) 50%, rgba(245, 158, 11, 0.14) 100%);
   }
 
-  /* Frosted Golden Hour Liquid Glass */
-  .glass-card {
-    background-color: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(245, 158, 11, 0.25);
-    box-shadow: 0 4px 24px -2px rgba(217, 119, 6, 0.06);
+  /* Sidebar Navigation: Frosted champagne glass with warm border */
+  .glass-sidebar {
+    background: rgba(255, 253, 248, 0.74);
+    backdrop-filter: blur(18px) saturate(130%);
+    -webkit-backdrop-filter: blur(18px) saturate(130%);
+    border-right: 1px solid rgba(255, 255, 255, 0.88);
+    box-shadow: 2px 0 28px -4px rgba(120, 53, 15, 0.06);
   }
 
-  .glass-card-hover {
-    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .glass-card-hover:hover {
-    background-color: rgba(255, 255, 255, 0.94);
-    border-color: rgba(217, 119, 6, 0.45);
-    box-shadow: 0 8px 30px -4px rgba(217, 119, 6, 0.12);
-  }
-
-  .glass-nav {
-    background-color: rgba(255, 255, 255, 0.88);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-color: rgba(245, 158, 11, 0.25);
+  /* Top Bar Navigation: Floating glass header with subtle amber bottom glow */
+  .glass-topbar {
+    background: rgba(255, 253, 248, 0.78);
+    backdrop-filter: blur(18px) saturate(130%);
+    -webkit-backdrop-filter: blur(18px) saturate(130%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 0 4px 24px -2px rgba(120, 53, 15, 0.05);
   }
 
-  /* Golden hour glowing accents */
-  .glow-golden {
-    box-shadow: 0 0 20px -3px rgba(245, 158, 11, 0.35);
+  /* Standard Scientific Cards & Boxes: Warm champagne glass with crisp border & subtle gold reflex */
+  .scientific-card, .glass-card {
+    background: rgba(255, 253, 248, 0.82);
+    backdrop-filter: blur(16px) saturate(125%);
+    -webkit-backdrop-filter: blur(16px) saturate(125%);
+    border: 1px solid rgba(255, 255, 255, 0.92);
+    box-shadow: 0 4px 24px -2px rgba(120, 53, 15, 0.05), inset 0 1px 1px 0 rgba(255, 255, 255, 0.95);
+  }
+
+  .scientific-card-hover, .glass-card-hover {
+    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .scientific-card-hover:hover, .glass-card-hover:hover {
+    background: rgba(255, 254, 250, 0.92);
+    border-color: rgba(245, 158, 11, 0.4);
+    box-shadow: 0 8px 32px -4px rgba(180, 83, 9, 0.12), inset 0 1px 2px 0 rgba(255, 255, 255, 1);
+    transform: translateY(-1px);
+  }
+
+  /* Quantum Workspace / Visualization Surfaces: Highly translucent with subtle warm ambient tint */
+  .glass-quantum-surface {
+    background: rgba(255, 253, 248, 0.75);
+    backdrop-filter: blur(18px) saturate(130%);
+    -webkit-backdrop-filter: blur(18px) saturate(130%);
+    border: 1px solid rgba(255, 255, 255, 0.94);
+    box-shadow: 0 8px 32px -4px rgba(120, 53, 15, 0.08), inset 0 1px 1px 0 rgba(255, 255, 255, 0.9);
+  }
+
+  /* High-Density Data Tables, Badges & KPI Pills */
+  .glass-pill {
+    background: rgba(255, 253, 248, 0.70);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.88);
+  }
+
+  /* Modals & Dialogs */
+  .glass-modal {
+    background: rgba(255, 253, 248, 0.95);
+    backdrop-filter: blur(24px) saturate(140%);
+    -webkit-backdrop-filter: blur(24px) saturate(140%);
+    border: 1px solid rgba(255, 255, 255, 0.96);
+    box-shadow: 0 25px 50px -12px rgba(120, 53, 15, 0.22);
   }
 
   /* Selection highlight */
   ::selection {
-    background-color: #fef3c7;
-    color: #92400e;
+    background-color: #fde68a;
+    color: #78350f;
   }
 }
 
-/* Warm minimalist scrollbars */
+/* Crisp minimalist warm scrollbars */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -71,9 +117,9 @@
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(217, 119, 6, 0.25);
+  background: rgba(217, 119, 6, 0.35);
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(217, 119, 6, 0.45);
+  background: rgba(180, 83, 9, 0.65);
 }

@@ -1,13 +1,14 @@
 import { Dataset, Model, QuantumExecutionJob, EvaluationRun, PatientCase, AuditLogEntry, InfrastructureNode, User } from '../types';
+import { DATASET_REGISTRY } from './datasetRegistry';
 
 export const MOCK_USERS: User[] = [
   {
     id: 'USR-001',
-    name: 'Dr. Aris Thorne',
-    email: 'a.thorne@quantumhealth.org',
+    name: 'Kasi Viswanath Vegisetti',
+    email: 'kasiviswanathvegisetti43@gmail.com',
     role: 'Quantum Researcher',
     avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=128&q=80',
-    institution: 'Institute for Quantum Medical Systems'
+    institution: 'Avanthi Institute of Engineering and Technology'
   },
   {
     id: 'USR-002',
@@ -64,7 +65,8 @@ export const MOCK_DATASETS: Dataset[] = [
       { feature: 'troponin_biomarker', type: 'float64', mean: '0.042 ng/mL', std: '0.015', missing: 3 },
       { feature: 'ejection_fraction', type: 'float64', mean: '58.2 %', std: '7.4', missing: 0 },
       { feature: 'vessel_score', type: 'int64', mean: '1.2 vessels', std: '0.9', missing: 0 }
-    ]
+    ],
+    metadata: DATASET_REGISTRY['DS-CARDIO-01']
   },
   {
     id: 'DS-DIABETES-02',
@@ -89,32 +91,41 @@ export const MOCK_DATASETS: Dataset[] = [
       { feature: 'glucose_tolerance', type: 'float64', mean: '124.8 mg/dL', std: '31.2', missing: 4 },
       { feature: 'insulin_serum', type: 'float64', mean: '88.3 µU/mL', std: '45.1', missing: 8 },
       { feature: 'bmi', type: 'float64', mean: '31.5 kg/m²', std: '6.2', missing: 0 }
-    ]
+    ],
+    metadata: DATASET_REGISTRY['DS-DIABETES-02']
   },
   {
     id: 'DS-ONCO-03',
-    name: 'Breast Cancer Classification — Synthetic Biomarkers',
+    name: 'Wisconsin Breast Cancer Dataset (WBCD)',
     category: 'Oncology',
-    records: 1680,
-    features: 18,
-    version: 'v3.0',
+    records: 569,
+    features: 30,
+    version: 'v1.0 (UCI Benchmark)',
     status: 'Ready',
-    lastUpdated: '2026-09-18',
-    qualityScore: 99.1,
-    description: 'High-dimensional nuclear pleomorphism and genomic score synthetic dataset evaluated against quantum neural network backends.',
-    targetVariable: 'Malignancy (Benign vs Malignant)',
+    lastUpdated: '2026-10-01',
+    qualityScore: 99.8,
+    description: 'Wisconsin Breast Cancer Dataset containing numerical features computed from digitized images of fine needle aspirate (FNA) of breast mass biopsies. Benchmark cohort evaluated for Hybrid Quantum Variational Classifier (VQC) and classical baselines.',
+    targetVariable: 'Diagnosis (Malignant vs Benign)',
     dataDistribution: [
-      { label: 'Benign', count: 1058, percentage: 63.0 },
-      { label: 'Malignant', count: 622, percentage: 37.0 }
+      { label: 'Benign', count: 357, percentage: 62.7 },
+      { label: 'Malignant', count: 212, percentage: 37.3 }
     ],
     missingValuesPct: 0.00,
     duplicateRows: 0,
-    outliersPct: 0.45,
+    outliersPct: 0.28,
     schema: [
-      { feature: 'radius_mean', type: 'float64', mean: '14.12 mm', std: '3.52', missing: 0 },
-      { feature: 'texture_mean', type: 'float64', mean: '19.28', std: '4.30', missing: 0 },
-      { feature: 'perimeter_mean', type: 'float64', mean: '91.96 mm', std: '24.29', missing: 0 }
-    ]
+      { feature: 'radius_mean', type: 'float64', mean: '14.13 mm', std: '3.52', missing: 0 },
+      { feature: 'texture_mean', type: 'float64', mean: '19.29', std: '4.30', missing: 0 },
+      { feature: 'perimeter_mean', type: 'float64', mean: '91.97 mm', std: '24.30', missing: 0 },
+      { feature: 'area_mean', type: 'float64', mean: '654.88 mm²', std: '351.91', missing: 0 },
+      { feature: 'smoothness_mean', type: 'float64', mean: '0.096', std: '0.014', missing: 0 },
+      { feature: 'compactness_mean', type: 'float64', mean: '0.104', std: '0.053', missing: 0 },
+      { feature: 'concavity_mean', type: 'float64', mean: '0.089', std: '0.080', missing: 0 },
+      { feature: 'concave_points_mean', type: 'float64', mean: '0.049', std: '0.039', missing: 0 },
+      { feature: 'symmetry_mean', type: 'float64', mean: '0.181', std: '0.027', missing: 0 },
+      { feature: 'fractal_dimension_mean', type: 'float64', mean: '0.063', std: '0.007', missing: 0 }
+    ],
+    metadata: DATASET_REGISTRY['DS-ONCO-03']
   },
   {
     id: 'DS-MULTI-04',
@@ -138,7 +149,8 @@ export const MOCK_DATASETS: Dataset[] = [
     schema: [
       { feature: 'charlson_comorbidity', type: 'int64', mean: '2.4', std: '1.8', missing: 0 },
       { feature: 'creatinine_level', type: 'float64', mean: '1.1 mg/dL', std: '0.4', missing: 5 }
-    ]
+    ],
+    metadata: DATASET_REGISTRY['DS-MULTI-04']
   }
 ];
 
@@ -224,32 +236,148 @@ export const MOCK_MODELS: Model[] = [
     updatedAt: '2026-09-22'
   },
   {
-    id: 'MDL-QML-QVNN-05',
-    name: 'Quantum Variational Neural Network (QVNN)',
+    id: 'MDL-QML-VQC-WBCD',
+    name: 'Breast Cancer Quantum Variational Classifier (VQC)',
     version: 'v1.0.0',
-    family: 'QUANTUM_ML',
-    algorithm: 'Strongly Entangling Layered Ansatz',
+    family: 'HYBRID',
+    algorithm: 'Variational Quantum Classifier (Angle Encoding + Parameterized Circuit)',
     datasetId: 'DS-ONCO-03',
-    datasetName: 'Breast Cancer Classification — Synthetic Biomarkers',
-    status: 'Registered',
-    accuracy: 0.886,
-    auc: 0.918,
-    sensitivity: 0.870,
-    specificity: 0.896,
-    f1Score: 0.883,
-    updatedAt: '2026-09-20',
+    datasetName: 'Wisconsin Breast Cancer Dataset (WBCD)',
+    status: 'Evaluated',
+    accuracy: 0.973684211,
+    auc: 0.982,
+    sensitivity: 0.985915493,
+    specificity: 0.952,
+    f1Score: 0.979020979,
+    updatedAt: '2026-10-01',
     quantumSpecs: {
-      qubits: 6,
-      ansatz: 'StronglyEntanglingLayers',
-      featureMap: 'ChebyshevFeatureMap',
+      qubits: 4,
+      ansatz: 'Parameterized Variational Circuit (RY + CNOT Entanglement)',
+      featureMap: 'Angle Encoding (Normalized Biopsy Features)',
       shots: 2048,
-      depth: 26,
-      backend: 'Aer Statevector Simulator'
+      depth: 16,
+      backend: 'Aer Quantum Simulator'
     }
+  },
+  {
+    id: 'MDL-CLASSIC-SVM-WBCD',
+    name: 'Wisconsin Breast Cancer Support Vector Machine (SVM)',
+    version: 'v1.0.0',
+    family: 'CLASSICAL_ML',
+    algorithm: 'Support Vector Machine (Radial Basis Function / Linear)',
+    datasetId: 'DS-ONCO-03',
+    datasetName: 'Wisconsin Breast Cancer Dataset (WBCD)',
+    status: 'Evaluated',
+    accuracy: 0.98245614,
+    auc: 0.988,
+    sensitivity: 1.00000000,
+    specificity: 0.965,
+    f1Score: 0.986111111,
+    updatedAt: '2026-10-01'
+  },
+  {
+    id: 'MDL-CLASSIC-RF-WBCD',
+    name: 'Wisconsin Breast Cancer Random Forest Classifier',
+    version: 'v1.0.0',
+    family: 'CLASSICAL_ML',
+    algorithm: 'Random Forest Ensemble (Standard Hyperparameters)',
+    datasetId: 'DS-ONCO-03',
+    datasetName: 'Wisconsin Breast Cancer Dataset (WBCD)',
+    status: 'Evaluated',
+    accuracy: 0.964912281,
+    auc: 0.972,
+    sensitivity: 0.985915493,
+    specificity: 0.932,
+    f1Score: 0.972222222,
+    updatedAt: '2026-10-01'
+  },
+  {
+    id: 'MDL-CLASSIC-LR-WBCD',
+    name: 'Wisconsin Breast Cancer Logistic Regression Baseline',
+    version: 'v1.0.0',
+    family: 'CLASSICAL_ML',
+    algorithm: 'Logistic Regression with L2 Regularization',
+    datasetId: 'DS-ONCO-03',
+    datasetName: 'Wisconsin Breast Cancer Dataset (WBCD)',
+    status: 'Evaluated',
+    accuracy: 0.97400000,
+    auc: 0.979,
+    sensitivity: 0.98600000,
+    specificity: 0.952,
+    f1Score: 0.97900000,
+    updatedAt: '2026-10-01'
   }
 ];
 
 export const MOCK_EVALUATION_RUNS: EvaluationRun[] = [
+  {
+    id: 'EVAL-WBCD-2026-001',
+    modelId: 'MDL-QML-VQC-WBCD',
+    modelName: 'Quantum Variation Classifier (VQC)',
+    datasetName: 'Wisconsin Breast Cancer Dataset (WBCD)',
+    strategy: '5-Fold Stratified CV',
+    calibrationMethod: 'Platt Scaling (Sigmoid)',
+    optimalThreshold: 0.500,
+    testSetStatus: 'LOCKED & ISOLATED',
+    paperCitation: {
+      title: 'Quantum-Enhanced Breast Cancer Detection Using Hybrid Quantum Machine Learning',
+      author: 'Kasi Viswanath Vegisetti',
+      institution: 'Department of Electronics and Communication Engineering, Avanthi Institute of Engineering and Technology, Makavarapalem, India',
+      email: 'kasiviswanathvegisetti43@gmail.com'
+    },
+    metrics: {
+      accuracy: { value: 0.973684211, ci: [0.956, 0.988] },
+      sensitivity: { value: 0.985915493, ci: [0.968, 1.000] },
+      specificity: { value: 0.952, ci: [0.930, 0.971] },
+      precision: { value: 0.972222222, ci: [0.954, 0.987] },
+      f1Score: { value: 0.979020979, ci: [0.965, 0.991] },
+      rocAuc: { value: 0.982, ci: [0.970, 0.994] },
+      prAuc: { value: 0.980, ci: [0.968, 0.992] },
+      brierScore: 0.045
+    },
+    comparisonBenchmarks: [
+      {
+        modelName: 'SVM',
+        modelType: 'Classical',
+        accuracy: 0.98245614,
+        precision: 0.97260274,
+        recall: 1.00000000,
+        f1Score: 0.986111111
+      },
+      {
+        modelName: 'Random Forest',
+        modelType: 'Classical',
+        accuracy: 0.964912281,
+        precision: 0.95890411,
+        recall: 0.985915493,
+        f1Score: 0.972222222
+      },
+      {
+        modelName: 'Logistic Regression',
+        modelType: 'Classical',
+        accuracy: 0.97400000,
+        precision: 0.97200000,
+        recall: 0.98600000,
+        f1Score: 0.97900000
+      },
+      {
+        modelName: 'Quantum Variation Classifier',
+        modelType: 'Quantum',
+        accuracy: 0.973684211,
+        precision: 0.972222222,
+        recall: 0.985915493,
+        f1Score: 0.979020979
+      }
+    ],
+    reproducibility: {
+      randomSeed: 42,
+      datasetVersion: 'v1.0 (UCI Benchmark)',
+      modelVersion: 'v1.0.0',
+      codeGitSha: '7f91c3da',
+      environmentHash: 'sha256:d8b2e1a4c9f0882e3f5b72189a6c7e3f89a4d1b8c2e5a7f9b0c2e4a6d8f1e3b5',
+      timestamp: '2026-10-01T09:15:00Z'
+    }
+  },
   {
     id: 'EVAL-2026-089',
     modelId: 'MDL-HYBRID-VQC-01',
@@ -357,13 +485,63 @@ export const MOCK_PATIENT_CASES: PatientCase[] = [
       { feature: 'Total Cholesterol (226 mg/dL)', impact: 0.11, value: '+0.11' },
       { feature: 'Normal Troponin (0.038 ng/mL)', impact: -0.06, value: '-0.06' }
     ]
+  },
+  {
+    id: 'CASE-WBCD-8423',
+    syntheticId: 'WBCD-FNA-8423',
+    age: 52,
+    gender: 'F',
+    condition: 'Wisconsin FNA Biopsy — Breast Mass Classification',
+    systolicBp: 124,
+    cholesterol: 198,
+    fastingGlucose: 104,
+    bmi: 26.4,
+    smokingStatus: 'Never',
+    vesselOcclusionPct: 0,
+    cardiacBiomarker: 0.015,
+    riskProbability: 0.974,
+    riskTier: 'High Risk',
+    confidence: 0.986,
+    decisionRule: 'VQC Decision Margin > 0.500 (Malignancy Confirmed by Hybrid QML)',
+    recommendation: 'Urgent histopathology review, core biopsy correlation, and oncological diagnostic review.',
+    shapContributions: [
+      { feature: 'Mean Concave Points (0.147)', impact: 0.34, value: '+0.34' },
+      { feature: 'Worst Perimeter (158.8 mm)', impact: 0.29, value: '+0.29' },
+      { feature: 'Mean Radius (17.99 mm)', impact: 0.22, value: '+0.22' },
+      { feature: 'Mean Texture (24.54)', impact: 0.12, value: '+0.12' }
+    ]
   }
 ];
 
 export const MOCK_QUANTUM_JOBS: QuantumExecutionJob[] = [
   {
+    id: 'QJOB-WBCD-2026-001',
+    circuitName: 'Wisconsin-BreastCancer-VQC-Ansatz',
+    datasetId: 'DS-ONCO-03',
+    datasetName: 'Wisconsin Breast Cancer (WDBC)',
+    modelName: 'Breast Cancer VQC',
+    backend: 'Statevector Simulator',
+    qubits: 4,
+    shots: 2048,
+    depth: 16,
+    gateCount: 36,
+    executionTimeMs: 132,
+    status: 'completed',
+    timestamp: '2026-10-01 10:14:22',
+    isSimulated: true,
+    probabilities: [
+      { state: '|0000⟩ (Benign)', probability: 0.627, count: 1284 },
+      { state: '|0001⟩', probability: 0.082, count: 168 },
+      { state: '|0010⟩', probability: 0.045, count: 92 },
+      { state: '|1111⟩ (Malignant)', probability: 0.246, count: 504 }
+    ]
+  },
+  {
     id: 'QJOB-2026-042',
     circuitName: 'Cardio-VQC-Ansatz-L3',
+    datasetId: 'DS-CARDIO-01',
+    datasetName: 'Cardiovascular Risk (Heart Disease)',
+    modelName: 'Cardio-Hybrid VQC',
     backend: 'Statevector Simulator',
     qubits: 4,
     shots: 2048,
@@ -383,6 +561,9 @@ export const MOCK_QUANTUM_JOBS: QuantumExecutionJob[] = [
   {
     id: 'QJOB-2026-041',
     circuitName: 'ZZ-FeatureMap-Encoding',
+    datasetId: 'DS-CARDIO-01',
+    datasetName: 'Cardiovascular Risk (Heart Disease)',
+    modelName: 'Pauli ZZ-FeatureMap',
     backend: 'Aer QASM Simulator',
     qubits: 4,
     shots: 4096,

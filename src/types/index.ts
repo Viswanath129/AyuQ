@@ -15,6 +15,34 @@ export interface User {
   institution: string;
 }
 
+export interface DatasetMetadata {
+  id: string;
+  name: string;
+  shortName: string;
+  category: 'Cardiovascular' | 'Oncology' | 'Endocrinology' | 'General Clinical';
+  description: string;
+  sourceOrganization: string;
+  sourceName: string;
+  sourceUrl: string;
+  repositoryUrl: string;
+  citation: string;
+  doi?: string;
+  datasetType: 'Real Clinical Benchmark' | 'Synthetic Benchmark Cohort' | 'De-identified Multi-Modal Cohort';
+  featureCount: number;
+  recordCount: number;
+  targetVariable: string;
+  isSynthetic: boolean;
+  provenanceBasis: string;
+  derivationNote?: string;
+  tags: string[];
+  paperReference?: {
+    title: string;
+    author: string;
+    publicationYear: number;
+    url?: string;
+  };
+}
+
 export interface Dataset {
   id: string;
   name: string;
@@ -32,6 +60,7 @@ export interface Dataset {
   duplicateRows: number;
   outliersPct: number;
   schema: { feature: string; type: string; mean: string; std: string; missing: number }[];
+  metadata?: DatasetMetadata;
 }
 
 export type ModelFamily = 'CLASSICAL_ML' | 'QUANTUM_ML' | 'HYBRID';
@@ -65,14 +94,18 @@ export interface QuantumCircuitGate {
   id: string;
   qubit: number;
   step: number;
-  gateType: 'H' | 'X' | 'Y' | 'Z' | 'RX' | 'RY' | 'RZ' | 'CNOT_CONTROL' | 'CNOT_TARGET' | 'M';
+  gateType: 'H' | 'X' | 'Y' | 'Z' | 'RX' | 'RY' | 'RZ' | 'CNOT_CONTROL' | 'CNOT_TARGET' | 'CNOT' | 'M' | 'S' | 'T';
   param?: string;
+  angle?: number;
   targetQubit?: number;
 }
 
 export interface QuantumExecutionJob {
   id: string;
   circuitName: string;
+  datasetId?: string;
+  datasetName?: string;
+  modelName?: string;
   backend: 'Statevector Simulator' | 'Aer QASM Simulator' | 'IBM Quantum (Eagle r3)' | 'AWS Braket (Rigetti)' | 'Azure Quantum (IonQ)';
   qubits: number;
   shots: number;
@@ -112,6 +145,20 @@ export interface EvaluationRun {
     environmentHash: string;
     timestamp: string;
   };
+  paperCitation?: {
+    title: string;
+    author: string;
+    institution: string;
+    email: string;
+  };
+  comparisonBenchmarks?: {
+    modelName: string;
+    modelType: 'Quantum' | 'Classical';
+    accuracy: number;
+    precision: number;
+    recall: number;
+    f1Score: number;
+  }[];
 }
 
 export interface PatientCase {
